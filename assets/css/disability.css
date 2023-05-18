@@ -9,7 +9,10 @@
   box-shadow: 0px 3px 10px #cfcfcf; /* adds a box shadow */
   background-color: #ffffff; /* sets the background color */
   border-radius: 5px; /* rounds the corners */
-  margin: 7.5rem -1.1rem 0 2.2rem;
+  margin-top: 7.6rem ;
+  margin-left:2.3rem;
+  margin-right:-3rem;
+  width:auto;
   overflow-x: hidden;
 }
 
@@ -18,8 +21,12 @@
   height: auto;
   background-color: #ffffff; /* sets the background color */
   border-radius: 5px; /* rounds the corners */
-  margin: 1rem -1rem 1rem 2.2rem;
+  /* margin: 1.2rem  1remrem; */
+margin-left:2.3rem;
+margin-right:-2.9rem;
   overflow-x: hidden;
+  width:auto;
+
 }
 
 #block15 .icon {
@@ -78,11 +85,15 @@
 @media (max-width: 767px) {
   #block15 .bx-shadow {
     box-shadow: 0px 3px 10px #cfcfcf; /* adds a box shadow */
-    margin: 7.4rem -2.6rem 0 2rem;
+    margin: 7.4rem -4.5rem 0 2.2rem;
   }
 
   #block15 .bx-shadow2 {
-    margin: 1rem -2.6rem 0 2rem;
+    margin: 1rem -4.4rem 0 2.2rem;
+    position:relative;
+  }
+  #block15 .row{
+    width:auto;
   }
   #block15 .bx-shadow3 {
     margin: 0.6rem -2.5rem 0 2rem;
@@ -90,7 +101,6 @@
   #block15 .pad {
     padding: 3rem;
   }
-
   #block15 .heading-search {
     font-size: 16px;
     text-align: center;

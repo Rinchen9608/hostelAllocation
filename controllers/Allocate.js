@@ -284,8 +284,8 @@ const getallocation = async (req, res, next) => {
   // res.json({
   //   allocation: allocations.map((block) => block.toObject({ getters: true })),
   // });
-  // // res.send(allocations);
-  return res.render("Allocation/allocate", { allocations: allocations });
+  res.send(allocations);
+  // return res.render("Allocation/allocate", { allocations: allocations });
 };
 
 ///////////////////////////////////////////////////////////

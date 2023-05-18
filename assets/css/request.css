@@ -1,12 +1,4 @@
-#block15 .bx-shadow {
-  box-shadow: 0px 3px 10px #cfcfcf; /* adds a box shadow */
-  background-color: #ffffff; /* sets the background color */
-  border-radius: 5px; /* rounds the corners */
-  width:100%;
-position:relative;
-  overflow-x: hidden;
 
-}
 #block15 .bx-shadow1 {
   box-shadow: 0px 3px 10px #cfcfcf; /* adds a box shadow */
   height: auto;
@@ -142,8 +134,7 @@ margin:-.7rem -4.5rem 0 2rem;
 @media(max-width: 1023px){
  #block15 .gri{
     display: grid;
-  grid-template-columns: 1fr;
-
+  grid-template-columns:1fr;
   }
 }
 
@@ -155,3 +146,14 @@ margin:-.7rem -4.5rem 0 2rem;
 
    }
  }
+
+ .picture{
+   display:flex;
+flex-direction:row;
+text-decoration:none;
+color:#ff4b13;
+ }
+.picture:hover{
+  text-decoration:none;
+  color:#ff4b13;
+}

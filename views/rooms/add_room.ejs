@@ -39,7 +39,7 @@ input {
   border: 1px solid #4f4f4f;
   padding-left:  40px;
   padding-right:  40px;
-  border-radius: 12px;
+  border-radius: 5px;
   padding-top: 40px;
   padding-bottom: 70px;
 }
@@ -141,7 +141,7 @@ input {
   min-width: 88px;
   transition: 250ms;
 
- 
+
   &:focus {
     outline: none;
   }
@@ -191,12 +191,19 @@ width:120px;
 select{
   background-color: white;
 }
+.add-form{
+  shadow: 0 3px 10px black;
+  height:auto;
+  background:blue;
+  width:98.5%;
+  position:relative;
 
+  margin:7.6rem 0 0 2.3rem;
+  overflow-x:hidden;
+}
 </style>
 
-
   <form id="form">
-
     <div class="input-box">
     <h5 style="text-align: center; font-weight:bold;  padding-bottom:1rem;">Create Room</h5>
   </div>
@@ -242,6 +249,7 @@ select{
   <button type="submit" class="btn pull-right">Create</button>
   <br>
 </form>
+
 </body>
 <script>
   function setFocus(on) {
@@ -307,7 +315,7 @@ const form = document.querySelector('#form');
           y: 20 // vertical axis - can be a number or a string indicating unity. eg: '2em'
         }
       }).showToast();
-      
+
       } else {
          const errorMessage = await response.text() || 'Failed to create room';
       Toastify({

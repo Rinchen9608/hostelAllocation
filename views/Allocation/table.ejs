@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
     <!-- Bootstrap link -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    
+
     <title>table</title>
-    <style> 
+    <style>
         .table {
             width: 90%;
             margin-left: 6%;
@@ -24,12 +24,36 @@
             vertical-align: bottom;
             border-bottom: 2px solid #e3e6f0
             }
+
+.tab tr {
+  margin-left: 1rem;
+  color: #ffffff;
+}
+.tab {
+  width: 100%;
+}
+.tab td,
+.tab th {
+  padding: 1rem;
+  vertical-align: top;
+  border: 1px solid #d7c8c8;
+  opacity: 90%;
+}
+.tab tbody tr {
+  color: #4f4f4f;
+}
+.tab thead th {
+  vertical-align: bottom;
+  border: 2px solid #e9e0e0;
+  background: #ff4b13;
+  opacity: 90%;
+}
     </style>
   </head>
   <body>
     <div class="col-lg-12 col-md-12 col-sm-12">
-        <div class="table-responsive">
-            <table class="table table-hover" id="allocationTable">
+        <div class="table-responsive" style="overflow-x:auto;">
+            <table class="tab p-2 mt-2 text-center" style="margin:0 auto;" id="allocationTable">
             <thead>
             <tr>
               <th scope="col">#</th>
@@ -42,10 +66,10 @@
             </tr>
             </thead>
             <tbody>
-               
+
             <!-- <tr>
               <th scope="row"></th>
-              <td></td>												
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -54,7 +78,7 @@
             </tr>
             <tr>
               <th scope="row"></th>
-              <td></td>						
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -63,6 +87,6 @@
             </tr> -->
             </tbody>
           </table>
-        </div>				
+        </div>
   </body>
 </html>

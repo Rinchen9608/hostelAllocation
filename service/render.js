@@ -393,25 +393,30 @@ exports.search_room = async (req, res) => {
 
 exports.displaycreateallocation = async function (req, res) {
   const currentYear = new Date().getFullYear();
+  const year = req.query.year;
   const token = req.cookies.tokenABC;
   const username = req.cookies.userData;
   const notificationCount = await Request.countDocuments({ clicked: false });
 
   Promise.all([
     axios.get(`http://localhost:5000/api/blocks`),
-    axios.get(`http://localhost:5000/allocate/api/years/${currentYear}`),
+    axios.get(`http://localhost:5000/allocate/all`),
     axios.get("http://localhost:5000/room/api/rooms"),
+    axios.get(`http://localhost:5000/students/allstudents`),
   ])
     .then((responses) => {
       const blockData = responses[0].data;
       const allocation = responses[1].data;
       const roomresponse = responses[2].data;
+      const studentResponse = responses[3].data;
       console.log("allocations", allocation);
       res.render("Allocation/createalllocation", {
         block: blockData,
         allocate: allocation,
         token: token,
+        year: year,
         room: roomresponse,
+        students: studentResponse,
         notificationCount: notificationCount,
         username: username.name,
       });
@@ -420,7 +425,6 @@ exports.displaycreateallocation = async function (req, res) {
       res.send(err);
     });
 };
-
 exports.search_roompage = async function (req, res) {
   const token = req.cookies.tokenABC;
   const username = req.cookies.userData;

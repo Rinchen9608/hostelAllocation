@@ -1,25 +1,25 @@
 /* Block div  */
 #block14 .bx-shadow {
-  box-shadow: 0 0 20px rgba(77, 77, 77, 0.25); /* adds a box shadow */
+  box-shadow:0 3px 10px #cfcfcf; /* adds a box shadow */
   height: atuo;
   background-color: #ffffff; /* sets the background color */
-  border-radius: 10px; /* rounds the corners */
-  margin: 7.4rem -1rem 0 2.2rem;
+  border-radius: 5px; /* rounds the corners */
+  margin: 7.6rem -.8rem 0 2.3rem;
   overflow-x: none;
 }
 #block14 .bx-shadow1 {
   height: auto;
-  margin: 0rem 1rem 0 1.2rem;
-  border-radius: 10px; /* rounds the corners */
+  margin: .2rem 1.7rem 0 1.1rem;
+  border-radius: 5px; /* rounds the corners */
   height: atuo;
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  gap: 20px;
   overflow-x: none;
 }
 
 #block14 .search-bx {
-  box-shadow: 0 0 20px rgba(77, 77, 77, 0.25);
+  box-shadow:0 3px 10px #cfcfcf;
   height: auto;
   background: #ffffff;
   border-radius: 10px;
@@ -56,11 +56,11 @@
     font-size: cal(100% -2px);
   }
   #block14 .bx-shadow {
-    box-shadow: 0 0 20px rgba(77, 77, 77, 0.25); /* adds a box shadow */
+    box-shadow:0 3px 10px #cfcfcf; /* adds a box shadow */
     height: atuo;
     background-color: #ffffff; /* sets the background color */
-    border-radius: 10px; /* rounds the corners */
-    margin: 7.4rem -2.5rem 0 2.2rem;
+    border-radius: 5px; /* rounds the corners */
+    margin: 7.6rem -2.5rem 0 2.2rem;
   }
   #block14 .bx-shadow1 {
     width: 100%;
@@ -86,7 +86,7 @@
     font-size: 2.8vw;
   }
   #block14 .search-bx2 {
-    padding-top: 1rem;
+  
   }
   /* #block14 .search-rooo {
       padding-bottom: 0.4rem;

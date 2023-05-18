@@ -1,11 +1,10 @@
 /* Block div  */
 .shadow-box {
-  box-shadow: 0 0 20px rgba(77, 77, 77, 0.25); /* adds a box shadow */
+  box-shadow:0 3px 10px #cfcfcf; /* adds a box shadow */
   height: 290px;
   background-color: #ffffff; /* sets the background color */
   border-radius: 5px; /* rounds the corners */
   margin: 18px -2.6rem 0 2.3rem;
-
 }
 /* #block .row{
   widows: 102.2em;%;
@@ -19,6 +18,7 @@
   padding-top: 2rem;
   margin-left: 6%;
   color: #4f4f4f;
+  opacity:90%;
 }
 
 #block .icon {
@@ -27,6 +27,16 @@
   position: absolute;
   margin-left: 6%;
   opacity: 90%;
+}
+/* addblock button position */
+#block .block-a{
+  margin:2rem 0 0 2.3rem;
+  border-radius:5px
+  /* box-shadow:0 3px 10px #cfcfcf;  */
+}
+/* block heading position */
+#block .greetings{
+width:100.7%;
 }
 #block .bname {
   margin-left: 16%;
@@ -99,9 +109,7 @@
   outline: none;
 }
 
-#block .add {
-  width: 103%;
-}
+
 #block .view {
   margin-top: 9px;
 }
@@ -115,4 +123,12 @@
 #block .addblik{
   cursor: pointer;
   text-decoration: none;
+}
+
+
+@media(max-width:768px){
+  .shadow-box {
+    border-radius: 5px;
+    margin: 18px -3rem 0 2.2rem;
+  }
 }

@@ -91,7 +91,7 @@ const RecentActivity = new Schema({
   student: { type: String, required: true },
   Description: { type: String, required: true },
   room: { type: String, required: true },
-  date: { type: Date, required: true },
+  date: { type: String, required: true },
 });
 
 const removedStudents = new Schema({

@@ -50,29 +50,26 @@ const upload = multer({ storage: storage });
 // request Hostelchange/////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.hostelChangeRequest = async (req, res) => {
-  const { targetBlock, targetRoom, reason, filename } = req.body;
-  const studentId = req.params.uid;
+  upload.single("filename")(req, res, async function (err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "File upload failed" });
+    }
 
-  // Assuming the logged-in student's ID is stored in the `id` property of the `req.user` object
+    const { targetBlock, targetRoom, reason } = req.body;
+    const studentId = req.params.uid;
 
-  try {
-    upload.single("filename")(req, res, async function (err) {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ message: "File upload failed" });
-      }
-      const fileName = filename;
+    try {
+      const fileName = req.file ? req.file.filename : null;
+      console.log("file ", fileName);
 
       let block;
+
       // Check if the specified block exists
-      console.log(targetBlock, targetRoom);
       block = await Block.findOne({ _id: targetBlock });
       if (!block) {
         return res.status(404).json({ message: "Block not found" });
       }
-
-      // const fileName = req.file ? req.file.filename : null;
-      // console.log(fileName);
 
       // Check if the specified room exists in the specified block
       const room = await rooms.findOne({
@@ -84,53 +81,38 @@ exports.hostelChangeRequest = async (req, res) => {
           .status(404)
           .json({ message: "Room not found in specified block" });
       }
-      console.log("rtyuiop");
 
       // Check if the logged-in student's current room is in the specified block
       const currentRoom = await Allocate.findOne({ sid: studentId });
+      if (!currentRoom) {
+        return res.status(404).json({
+          message: "Current room not found for the logged-in student",
+        });
+      }
       const student_name = currentRoom.student_name;
       const student_email = currentRoom.student_email;
       const student_course = currentRoom.course;
       const student_year = currentRoom.year;
       const student_gender = currentRoom.student_gender;
 
-      console.log(
-        student_email,
-        student_course,
-        student_year,
-        student_gender,
-        student_name
-      );
-
-      const currentBlock = await Block.findOne({ _id: currentRoom.blockid });
-      const currentRooms = await rooms.findOne({ _id: currentRoom.roomid });
-      if (!currentBlock && !currentRoom) {
-        return res.status(404).json({
-          message: "Current block and room not found for logged-in student",
-        });
-      }
-      console.log("sdfghjkl");
       // Check if the requested room is available
       if (room.availability === 0) {
         return res
           .status(400)
           .json({ message: "Requested room is not available" });
       }
-      console.log("fguiohgfhjk");
-      console.log(" curret block", currentBlock);
-      console.log(" curret room", currentRooms);
 
-      // if (room.availability === room.room_capacity) {
-      console.log("in if loop checking already available");
+      const currentBlock = await Block.findOne({ _id: currentRoom.blockid });
+      const currentRooms = await rooms.findOne({ _id: currentRoom.roomid });
+
       // Check if the logged-in student has already made a request to change rooms
       const existingRequest = await Request.findOne({ student: studentId });
       if (existingRequest) {
-        console.log("already have");
         return res.status(500).json({
           message: "You already have a pending request to change rooms",
         });
       }
-      console.log("ftyghytyguuu");
+
       const now = new Date();
       const year = now.getFullYear();
       const month = now.getMonth() + 1;
@@ -140,8 +122,8 @@ exports.hostelChangeRequest = async (req, res) => {
       const seconds = now.getSeconds();
 
       const curdate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      // Create a new request object
 
+      // Create a new request object
       const request = new Request({
         student: studentId,
         room: currentRooms._id,
@@ -166,16 +148,12 @@ exports.hostelChangeRequest = async (req, res) => {
 
       // Return a success message
       return res.json({ message: "Request submitted successfully" });
-      // } else {
-      // return res.json({ message: "Requested Room is not empty" });
-      // }
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
 };
-
 // //////////////
 exports.editstudents = async (req, res) => {
   const studentId = req.params.id;
@@ -208,12 +186,13 @@ exports.searchStudentsBySID = async (req, res) => {
   const studentSID = req.query.studentSID;
 
   console.log(token);
+  console.log(studentSID)
 
   if (!studentSID) {
     const error = new HttpError("Missing query parameter: studentSID", 400);
     return res.status(error.code || 500).json({ message: error.message });
   }
-
+   console.log("sedfghjkl;")
   try {
     const response = await axios.get(
       `https://gcit-user-management.onrender.com/api/v1/UM/sid/${studentSID}`,
@@ -226,7 +205,7 @@ exports.searchStudentsBySID = async (req, res) => {
     );
 
     const students = response.data;
-
+    console.log(students)
     if (students.length === 0) {
       const error = new HttpError(
         `No students found with the SID '${studentSID}'`,

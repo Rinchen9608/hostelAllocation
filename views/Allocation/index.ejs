@@ -3,19 +3,19 @@
 <style>
 
 #block11 .shadow-box {
-  box-shadow: 0 0 20px rgba(77, 77, 77, 0.25); /* adds a box shadow */
+  box-shadow: 0px 3px 10px #cfcfcf; /* adds a box shadow */
   height: 78px;
   background-color: #ffffff; /* sets the background color */
-  border-radius: 10px; /* rounds the corners */
-  margin: 18px 0 0 2.2rem;
+  border-radius: 5px; /* rounds the corners */
+  margin: -.8rem 0 0 2.3rem;
   width: 101%;
 }
 #block11 .shadow-box1 {
-  box-shadow: 0 0 20px rgba(77, 77, 77, 0.25); /* adds a box shadow */
+  box-shadow: 0px 3px 10px #cfcfcf;/* adds a box shadow */
   height: auto;
   background-color: #ffffff; /* sets the background color */
-  border-radius: 10px; /* rounds the corners */
-  margin: 18px 0 0 2.2rem;
+  border-radius: 5px; /* rounds the corners */
+  margin: 20px 0 0 2.3rem;
   width: 101%;
 }
 
@@ -289,7 +289,8 @@ margin-left:4.9rem;
 display:flex;
   flex-direction:row;
   gap:1rem;
-margin:0 auto;
+margin:0 aut;
+
 border-radius:5px;
 }
 .deshea{
@@ -299,7 +300,7 @@ color:#ff4b13;
 
 <main>
   <main id="block11">
-    <div class="row">
+    <div class="row" >
       <div class="col-lg-12 col-md-12 col-sm-12 block1 mar">
         <div class="shadow-box">
           <div class="form-group pt-2">
@@ -319,22 +320,23 @@ color:#ff4b13;
 
         <div class="shadow-box1">
           <br><br>
-          <div class="descrip justify-content-center" >
-            <h4 class="deshea font-weight-bold text-uppercase" id="descriptionElement">
-            </h4>
-          </div>
+
          <br>
           <h6 class="pre">Previous allocation</h6>
 
           <a class="" href="" style="cursor:pointer;">
-            <div class="pdf text-left" >
-                    <p id="downloadBtn" class="download mt-2 ml-3">Download</p>
+            <div id="downloadBtn" class="pdf text-left" >
+                    <p  class="download mt-2 ml-3">Download</p>
                     <i class="fa fa-file-pdf-o pdff" aria-hidden="true" style="padding-top: 8px;"></i>
             </div>
           </a>
           <br>
 
-          <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="col-lg-12 col-md-12 col-sm-12" id="tblCustomers">
+            <div class="descrip justify-content-center" >
+              <h4 class="deshea font-weight-bold text-uppercase pb-4" id="descriptionElement">
+              </h4>
+            </div>
             <div class="table-responsive">
              <%- include('./table.ejs') %>
 
@@ -342,6 +344,7 @@ color:#ff4b13;
               <br>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -349,30 +352,13 @@ color:#ff4b13;
 </main>
 
 <br>
-</body>
 
-</main>
 
-</section>
-<!-- <script>
-  // JavaScript code
-  const descriptionElement = document.querySelector("#descriptionElement");
-  const yearSelect = document.querySelector("#yearSelect");
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
-  yearSelect.addEventListener("change", async () => {
-    const selectedYear = yearSelect.value;
-    const response = await fetch("http://localhost:5000/year/allocations");
-    const data = await response.json();
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
 
-    const filteredData = data.find((item) => item.Year === selectedYear);
-
-    if (filteredData) {
-      descriptionElement.textContent = filteredData.Description;
-    } else {
-      descriptionElement.textContent = "";
-    }
-  });
-</script> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
 
 
@@ -411,35 +397,50 @@ color:#ff4b13;
 }).then((result) => {
   if (result.isConfirmed) {
     const { year, description } = result.value;
-    $.ajax({
-								url: "http://localhost:5000/year/api/years",
-								method: "POST",
-								data: { year, description },
-								success: function(response) {
-										// If the block was successfully updated, display a success message using Toastify and reload the page
-										Toastify({
-												text: "Successfully Created Academic Year",
-												backgroundColor: "#00b09b",
-												className: "success",
-												position:"top-center",
-										}).showToast();
-										const url = `/year/create-allocations?year=${encodeURIComponent(year)}`;
-                    window.location.href = url;
-								},
-								error: function(error) {
-										// If there was an error updating the block, display an error message using Toastify
-										 Toastify({
-                      text: `Already created academic year session for ${year} `,
-                      duration: 3000, // Display for 3 seconds
-                      gravity: 'top', // Display at the top of the screen
-                      position: 'center',
-                      className: "failed", // Display in the center of the screen
-                      backgroundColor: ' #ff416c', // Set a gradient background color
-                      stopOnFocus: true, // Stop the countdown when the user focuses on the screen
-                      onClick: function() { Toastify.hideAll() } // Hide all toasts when clicked
-                    }).showToast();
-								}
-						});
+    console.log(${description}, year)
+    fetch("http://localhost:5000/year/api/years", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ year, description }),
+})
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Error: " + response.status);
+    }
+  })
+  .then((data) => {
+    console.log(data);
+    // Handle success
+    Toastify({
+      text: "Successfully Created Academic Year",
+      backgroundColor: "#00b09b",
+      className: "success",
+      position: "top-center",
+    }).showToast();
+    const url = /year/create-allocations?year=${encodeURIComponent(year)};
+    window.location.href = url;
+  })
+  .catch((error) => {
+    console.log("Error:", error);
+    // Handle error
+    Toastify({
+      text: Already created academic year session for ${year},
+      duration: 3000,
+      gravity: "top",
+      position: "center",
+      className: "failed",
+      backgroundColor: "#ff416c",
+      stopOnFocus: true,
+      onClick: function () {
+        Toastify.hideAll();
+      },
+    }).showToast();
+  });
+
   }
 });
 
@@ -466,8 +467,7 @@ color:#ff4b13;
             }
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script src="script.js"></script>
+
 
 
 <script>
@@ -559,25 +559,7 @@ color:#ff4b13;
 
 
 
-<script>
-var modal = document.getElementById("myModal");
 
-var btn = document.getElementById("myBtn");
-
-btn.onclick = function () {
-modal.style.display = "block";
-}
-
-span.onclick = function () {
-modal.style.display = "none";
-}
-
-window.onclick = function (event) {
-if (event.target == modal) {
-    modal.style.display = "none";
-}
-}
-</script>
    <script>
       document.getElementById('downloadBtn').addEventListener('click', () => {
         // Create an HTML string for the content you want in the PDF
@@ -604,30 +586,30 @@ if (event.target == modal) {
         const encodedHtml = btoa(unescape(encodeURIComponent(html)));
 
         // Create a data URL for the encoded HTML
-        const dataUrl = `data:text/html;base64,${encodedHtml}`;
+        const dataUrl = data:text/html;base64,${encodedHtml};
 
         // Create a temporary link element
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = 'output.pdf';
+        // const link = document.createElement('a');
+        // link.href = dataUrl;
+        // link.download = 'output.pdf';
 
         // Programmatically click the link to trigger the download
-        link.click();
+        // link.click();
 
         // Cleanup
-        document.body.removeChild(link);
+        // document.body.removeChild(link);
       });
     </script>
     <script>
       // Retrieve the necessary elements
-     
+
       const descriptionElement = document.getElementById("descriptionElement");
-    
+
       // Add an event listener to the select element
       yearSelect.addEventListener("change", () => {
         // Get the selected year
         const selectedYear = yearSelect.value;
-    
+
         // Perform an asynchronous operation (e.g., fetch) to get the description
         fetch(`/year/api/years/${selectedYear}`)
           .then(response => response.json())
@@ -642,193 +624,24 @@ if (event.target == modal) {
       });
     </script>
 
+
 </body>
+
+<script type="text/javascript">
+  $("body").on("click", "#downloadBtn", function () {
+      html2canvas($('#tblCustomers'), {
+          onrendered: function (canvas) {
+              var data = canvas.toDataURL();
+              var docDefinition = {
+                  content: [{
+                      image: data,
+                      width: 500
+                  }]
+              };
+              pdfMake.createPdf(docDefinition).download("allocations.pdf");
+          }
+      });
+  });
+</script>
 
 </html>
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-       /* Style the popup form */
-.popup-form {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-}
-
-/* Style the form container */
-.form-container {
-    background-color: #f6f6f6;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-}
-
-/* Style the close button */
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Style the buttons */
-button, input[type="submit"] {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-
-/* Change the color of the submit button on hover */
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-/* Style the new form */
-#form-page {
-    margin: 20px auto;
-    width: 80%;
-}
-
-#form-page h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-#form-page label {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-#form-page select {
-    font-size: 16px;
-    padding: 5px 10px;
-    margin-bottom: 20px;
-}
-
-#form-page input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-#form-page input[type="submit"] {
-    margin-top: 20px;
-}
-
-#form-page .form-group {
-    margin-bottom: 20px;
-}
-
-#form-page .form-group label {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-#form-page .form-group input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-
-    </style>
-</head>
-<body>
-    <body>
-        <h1>Allocations</h1>
-        <% for(var i = 0; i < Acad.length; i++) { %>
-            <a href="/allocate/all?year=<%= Acad[i].Year %>"><%= Acad[i].Year %></a>
-        <% } %>
-        <button id="create-year-button">Create new Acad year</button>
-
-        <div id="popup-form" class="popup-form">
-            <div class="form-container">
-                <span class="close" onclick="closeForm()">&times;</span>
-                <h2>Create new academic year</h2>
-                <form onsubmit="submitForm(event)">
-                    <label for="year">Year :</label>
-                    <input type="text" id="year" name="year"><br><br>
-                    <label for="description">Description :</label>
-                    <input type="text" id="description" name="description"><br><br>
-                    <input type="submit" value="Submit" >
-                </form>
-            </div>
-        </div>
-
-
-        <script>
-            // Get the button and the popup form
-            const createYearButton = document.getElementById("create-year-button");
-            const popupForm = document.getElementById("popup-form");
-
-            // Add an event listener to the button that will display the popup form when clicked
-            createYearButton.addEventListener("click", () => {
-                popupForm.style.display = "block";
-            });
-
-            // Add a function to close the popup form when the close button is clicked
-            function closeForm() {
-                popupForm.style.display = "none";
-            }
-
-            // Add a function to submit the form
-            function submitForm(event) {
-  event.preventDefault();
-
-
-  const year = document.getElementById("year").value;
-  const description = document.getElementById("description").value;
-
-
-  fetch("http://localhost:5000/year/api/years", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ year: year, description: description })
-  })
-  .then(response => {
-    if (response.ok) {
-      const url = `/year/create-allocations?year=${encodeURIComponent(year)}`;
-      window.location.href = url;
-    } else {
-      alert("Error: " + response.statusText);
-    }
-  })
-  .catch(error => {
-    alert("Error: " + error.message);
-  });
-}
-
-           </script>
-
-
-</body>
-</html> -->

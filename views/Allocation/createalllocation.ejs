@@ -1,4 +1,3 @@
-
 <%- include("../required/header") %>
       <style type="text/css">
          .form-check-input[type="checkbox"] {
@@ -40,14 +39,38 @@
                             <div class="form-group  fo text-center" >
                                 <label for="exampleSelect">Select student year
                                     :</label>
+
+
+
+                                    <% let uniqueYears = new Set(); %>
+                                      <% const allocatedYears = allocate.map(entry => entry.year); %>
+
+                                      <% for (var i = 0; i < students.length; i++) { %>
+                                        <% let yearExists = false; %>
+                                        <% for (var j = 0; j < allocatedYears.length; j++) { %>
+                                          <% if (students[i].year === allocatedYears[j] && allocate[j].academicyear == year) { %>
+                                            <% yearExists = true; %>
+                                            <% break; %>
+                                          <% } %>
+                                        <% } %>
+                                        <% if (!yearExists) { %>
+                                          <% uniqueYears.add(students[i].year); %>
+                                        <% } %>
+                                      <% } %>
+                                      <% const sortedYears = Array.from(uniqueYears).sort((a, b) => a - b); %>
                                 <select class="form-select" id="exampleSelect" name="year-select" onchange="getTotalStudents()">
                                       <option value="" disabled selected>Select year to allocate</option>
-                                        
-                                        <option value="1">Year 1</option>
-                                        <option value="2">Year 2</option>
+
+
+                                      <% for (let year of sortedYears) { %>
+                                        <%= year %>
+                                        <option value="<%= year %>">Year <%= year %></option>
+                                      <% } %>
+
+                                        <!-- <option value="2">Year 2</option>
                                         <option value="3">Year 3</option>
                                         <option value="4">Year 4</option>
-                                       
+                                        -->
                                 </select>
                             </div>
                             <div class="gee">
@@ -75,8 +98,8 @@
                                             <label class="form-check-label" for="checkbox<%= i %>">
                                                 <span></span>
                                                 <%= block[i].block_name %>
-                                                
-                                              
+
+
                                                 <span class="slott">
                                                     <p>
                                                       <%= sum %> slots
@@ -105,6 +128,7 @@
                                     <div class="boxx boxx1">
                                         <h6 style="text-align: center; width: 100%; margin-bottom: 3rem;"><strong>Select Female Block to allocate</strong></h6>
                                         <% for(var j = 0; j < block.length; j++) { %>
+                                          <% if(block[j].status == "available") { %>
                                           <% var sum = 0
                                           for(var k = 0; k < room.length; k++) { %>
                                             <%
@@ -140,10 +164,11 @@
                                           </div>
                                         <% } %>
                                         <% } %>
+                                        <% } %>
 
                                         <br>
                                     </div>
-                                 
+
 
                                 </div>
 
@@ -180,7 +205,7 @@
       const yearSelect = document.getElementById("exampleSelect").value;
       console.log(yearSelect)
 
-      fetch(`/students/count/${yearSelect}`)
+      fetch(/students/count/${yearSelect})
         .then(response => {
           if (!response.ok) {
             throw new Error('Failed to fetch student data');
@@ -193,10 +218,10 @@
           const femaleStudents = data.female;
 
           const totalStudentsElement = document.getElementById('male-students');
-          totalStudentsElement.innerHTML = `${maleStudents}`;
+          totalStudentsElement.innerHTML = ${maleStudents};
 
           const totalStudentsFemale = document.getElementById('female-students');
-          totalStudentsFemale.innerHTML = `${femaleStudents}`;
+          totalStudentsFemale.innerHTML = ${femaleStudents};
 
 
 
@@ -213,7 +238,7 @@
 
  spans.forEach(span => {
    const blockId = span.getAttribute('blockId');
-   fetch(`http://localhost:5000/api/${blockId}/students/count`)
+   fetch(http://localhost:5000/api/${blockId}/students/count)
    .then(response => response.json())
    .then(data => {
      span.textContent = data + " slots";
@@ -246,7 +271,7 @@
           const queryParams = new URLSearchParams(window.location.search);
           const year = queryParams.get("year");
 
-          fetch(`http://localhost:5000/Allocate/api/years/${year}`, {
+          fetch(http://localhost:5000/Allocate/api/years/${year}, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'
@@ -272,7 +297,7 @@
                   // Handle the response/result as needed
                   console.log(result);
                   Toastify({
-                      text: `${result.message}`,
+                      text: ${result.message},
                       duration: 3000, // Display for 3 seconds
                       gravity: 'top', // Display at the top of the screen
                       position: 'center', // Display in the center of the screen
