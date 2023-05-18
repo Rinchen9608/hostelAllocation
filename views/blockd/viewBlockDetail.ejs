@@ -1,0 +1,302 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>View</h3>
+    <p><%= block.block_name %></p>
+
+    <% for(var i = 0; i < rooms.length; i++) { %>
+        <% if (rooms[i].blockid === block._id) { %>	 
+            <p><%= rooms[i].room_name %></p>
+        <% } %>
+        
+    <% } %>
+
+</body>
+</html> -->
+
+<%- include('../required/header') %>
+
+<% if(allocate) { %>
+<section id="stat">
+    <div class="col">
+        <div class="col-lg-12 col-md-12 col-sm-12 hea">
+            <div class="box">
+                <div class="di">
+                    <h5 class="fon font-weight-bold nt"><%= block.block_name %></h5>
+                    <h6 class="fon roo sttt">Block</h6>
+                </div>
+                <div class="ico di">
+                    <i class='far fa-building bulid'></i>
+                </div>
+            </div>
+            <div class="box">
+                <div class="di">
+                    <h5 class="fon font-weight-bold nt"><%= block.rooms.length %></h5>
+                    <h6 class="fon roo stt">Rooms</h6>
+                </div>
+                <div class="ico di">
+                    <i class='bx bx-home bx-tada-hover bui'></i>
+                </div>
+            </div>
+            
+            <div class="box">
+              <div class="di">
+                <h5 class="fon font-weight-bold nt" blockId="<%= block._id %>"></h5>
+                <h6 class="fon roo st">Students</h6>
+              </div>
+              
+                <div class="ico di">
+                    <i class="far  fa-user fa-outline builds"></i>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="container col-lg-12 col-md-12 col-sm-12 taa ">
+            <br>
+            <h5 class="room-d text-left">Room details</h5>
+            <div class="container col-lg-12 col-md-12 col-sm-12 taaa ">
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th>SINo.</th>
+                    <th>Rname</th>
+                    <th>Capacity</th>
+                    <th>Name</th>
+                    <th>SID</th>
+                    <th>Course</th>
+                    <th>Year</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(var i = 0; i < rooms.length; i++) { %>
+                    <% if (rooms[i].blockid === block._id) { %>	
+                      <% console.log("inside") %>
+                      <% var studentsInRoom = allocate.filter(a => a.roomid === rooms[i]._id); %>
+                      <% console.log("fghjkl", studentsInRoom) %>
+                      <% if (studentsInRoom.length > 0) { %>
+                        <tr>
+                          <td><%= i %></td>
+                          <td><%= rooms[i].room_name %></td>
+                          <td><%= rooms[i].room_capacity %></td>
+                          <td class="mw-100">
+                            <% studentsInRoom.forEach(function(student, index) { %>
+                              <%= student.student_name %>
+                              <% if (index < studentsInRoom.length - 1) { %>
+                                <br>
+                              <% } %>
+                            <% }); %>
+                          </td>
+                          <td>
+                            <% studentsInRoom.forEach(function(student, index) { %>
+                              <%= student.sid %>
+                              <% if (index < studentsInRoom.length - 1) { %>
+                                <br>
+                              <% } %>
+                            <% }); %>
+                          </td>
+                          <td>
+                            <% studentsInRoom.forEach(function(student, index) { %>
+                              <%= student.course %>
+                              <% if (index < studentsInRoom.length - 1) { %>
+                                <br>
+                              <% } %>
+                            <% }); %>
+                          </td>
+                          <td>
+                            <% studentsInRoom.forEach(function(student, index) { %>
+                              <%= student.year %>
+                              <% if (index < studentsInRoom.length - 1) { %>
+                                <br>
+                              <% } %>
+                            <% }); %>
+                          </td>
+                          <td>
+                            <% studentsInRoom.forEach(function(student, index) { %>
+                              <i data-id=<%= student.sid %> class="bx bx-trash room-ico add"></i>
+                              <% if (index < studentsInRoom.length - 1) { %>
+                                <br>
+                              <% } %>
+                            <% }); %>
+                          </td>
+                        </tr>
+
+                      <% } else { %>
+                      <tr>
+                        <td><%= i %></td>
+                        <td><%= rooms[i].room_name %></td>
+                        <td class="mw-100">
+                          <%= rooms[i].room_capacity %>
+                        </td>
+                        <td>
+                          <p>No students in the room</p>
+                        </td>
+                        <td>
+                        
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                          
+                        </td>
+                        <td>
+                          <i class="bx bx-trash room-ico"></i>
+                        </td>
+                      </tr>
+                      <% } %>
+                    <% } %>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <br><br>
+        </div>
+
+
+    </div>
+
+
+
+
+
+</section>
+<% } else { %>
+<p>no allocation found</p>
+<% } %>
+
+
+
+<!-- NAVBAR -->
+
+<script>
+  $(".add").click(function() {
+    var id = $(this).attr("data-id");
+		console.log(id);
+       
+    // Show confirmation message using SweetAlert2
+    Swal.fire({
+        html: `
+				<h5>Remove Students</h5>
+								<form>
+										<div class="form-group">
+                      <h6>Give a reason to remove a student</h6>
+                          
+                          <div class="input-box">
+														<label class="input-label">Reason To Remove</label>
+														<textarea type="text" class="input-1" style="height: 150px" onfocus="setFocus(true)" id="reason" onblur="setFocus(false)"></textarea>
+												</div>
+										</div>
+								</form>
+				`,
+				showCancelButton: true,
+				showConfirmButton: true,
+				confirmButtonColor: "#ff4b13",
+				cancelButtonColor: "#000",
+				confirmButtonText: "Remove",
+				preConfirm: () => {
+					// Retrieve the values of the input fields
+					const Description = document.getElementById('reason').value;
+				
+					// Return the values as an object
+					return { Description };
+				}
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Send AJAX request to delete block
+						const {Description} = result.value;
+						
+						//
+						//
+						$.ajax({
+								url: `/students/delete/${id}`,
+								method: "POST",
+								data: { Description },
+								success: function(response) {
+                  
+        $.ajax({
+            url: `/room/api/room/student/${id}`,
+            method: "DELETE",
+            success: function() {
+                // Student successfully removed from "allocations" database
+                Toastify({
+                    text: "Student removed from allocations successfully!",
+                    backgroundColor: "#00b09b",
+                    className: "success",
+                    position: "top-center",
+                }).showToast();
+                location.reload();
+            },
+            error: function(error) {
+                // Error removing student from "allocations" database
+                Toastify({
+                    text: "Error removing student from allocations: " + error.responseText,
+                    backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                    className: "error",
+                    position: "top-center",
+                }).showToast();
+            }
+        });									
+								},
+								error: function(error) {
+										// If there was an error updating the block, display an error message using Toastify
+										Toastify({
+												text: "Error removing student: " + error.responseText,
+												backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+												className: "error",
+												position:"top-center",
+										}).showToast();
+								}
+						});
+
+        }
+    });
+});
+</script>
+<script>
+  function setFocus(on) {
+            var element = document.activeElement;
+            if (on) {
+                setTimeout(function () {
+                element.parentNode.classList.add("focus");
+                });
+            } else {
+                let box = document.querySelector(".input-box");
+                box.classList.remove("focus");
+                $("input").each(function () {
+                var $input = $(this);
+                var $parent = $input.closest(".input-box");
+                if ($input.val()) $parent.addClass("focus");
+                else $parent.removeClass("focus");
+                });
+            }
+            }
+</script>
+<script>
+  const spans = document.querySelectorAll('[blockId]');
+  
+  spans.forEach(span => {
+    const blockId = span.getAttribute('blockId');
+    console.log(blockId);
+    fetch(`http://localhost:5000/api/${blockId}/students/count`)
+    .then(response => response.json())
+    .then(data => {
+      span.textContent = data;
+    });
+  });
+  </script>
+
+
+</body>
+
+</html>
+<!-- bx-tada-hover -->
+
